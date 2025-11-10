@@ -482,7 +482,12 @@ def transcribe_one(model, media_path, chunk_length, save_every_chunks, language,
     output_fulltext = ""
     total = len(chunks)
     for i, ch in enumerate(chunks):
-        result = model.transcribe(ch, language=language if language else None, fp16=False, condition_on_previous=True)
+        result = model.transcribe(
+        ch,
+        language=language if language else None,
+        fp16=False,
+        condition_on_previous_text=True   # o False, come preferisci
+        )
         segs = result.get("segments", [])
         for s in segs:
             t = normalize_sentence(s.get("text",""))
